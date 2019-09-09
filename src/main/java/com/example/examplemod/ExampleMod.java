@@ -13,6 +13,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
+
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod("examplemod")
 public class ExampleMod
@@ -66,6 +67,9 @@ public class ExampleMod
 //        LOGGER.info("HELLO from server starting");
 //    }
 
+	
+
+    
     // You can use EventBusSubscriber to automatically subscribe events on the contained class (this is subscribing to the MOD
     // Event bus for receiving Registry Events)
     @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
