@@ -38,6 +38,7 @@ public class FirstBlock extends Block {
     public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult result) {
         if (!world.isRemote) 
         {
+            displayDuration = 0;
         	for(int index=0; index<numFound.length; index++)  // clear out array that prevents dups being 
         	{
         		numFound[index] = 0;
@@ -58,7 +59,13 @@ public class FirstBlock extends Block {
         	int dirtCount = 0;
         	numGuiLayers = 0;
         	BlockPos myPos;
-        	int radius = 1; //0 for 1x1;  1 for 3x3;  2 for 5x5;  3 for 7x7
+        	int radius = 0; //0 for 1x1;  1 for 3x3;  2 for 5x5;  3 for 7x7
+        	
+        	if( world.getBlockState(new BlockPos(x,y+2,z)).getBlock().getNameTextComponent().getString().equals("First Block")) {radius++;}
+        	if( world.getBlockState(new BlockPos(x,y+1,z)).getBlock().getNameTextComponent().getString().equals("First Block")) {radius++;}
+        	if( world.getBlockState(new BlockPos(x,y-1,z)).getBlock().getNameTextComponent().getString().equals("First Block")) {radius++;}
+        	if( world.getBlockState(new BlockPos(x,y-2,z)).getBlock().getNameTextComponent().getString().equals("First Block")) {radius++;}
+
         	int zOffset, xOffset;
             for(int depth=1; depth<y-1; depth++)
             {
@@ -81,20 +88,19 @@ public class FirstBlock extends Block {
 			            	{
 			            		if(numFound[typeIndex] == 0)
 			            		{
-			            			sortedItemDepth[typeIndex] = y-newY;
 			            			if(numGuiLayers<maxGuiLayers)
 			            			{
+				            			sortedItemDepth[typeIndex] = y-newY;
 			            				layerItemIndexes[numGuiLayers] = typeIndex;
 			            				numGuiLayers++;
 			            			}
-	
 			            		}
 			            		numFound[typeIndex]++;
 			            	}
-		            	}
-                   }
-                }
-            }
+						}
+					}
+				}
+			}
             
             for(int index=0; index<numGuiLayers; index++)
             {
