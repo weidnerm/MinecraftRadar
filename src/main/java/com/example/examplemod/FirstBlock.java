@@ -56,11 +56,11 @@ public class FirstBlock extends Block {
             LOGGER.info("pos = " + x + ","+ y + "," + z );
             
         	int dirtCount = 0;
-        	int numGuiLayers = 0;
+        	numGuiLayers = 0;
         	BlockPos myPos;
         	int radius = 1; //0 for 1x1;  1 for 3x3;  2 for 5x5;  3 for 7x7
         	int zOffset, xOffset;
-            for(int depth=1; depth<y-1-60; depth++)
+            for(int depth=1; depth<y-1; depth++)
             {
             	int newY = y-depth;
             	
@@ -74,7 +74,6 @@ public class FirstBlock extends Block {
 		            	myPos = new BlockPos(newX,newY,newZ);
 		            	BlockState myBlockState = world.getBlockState(myPos);
 		            	String blockName = myBlockState.getBlock().getNameTextComponent().getString();
-//		            	LOGGER.info("<"+newX+","+newY+","+newZ+"> blockName=" + blockName); // Sand, Dirt, First Block
             	
 		            	for(int typeIndex=0; typeIndex<itemNames.length ; typeIndex++)
 		            	{
@@ -82,7 +81,7 @@ public class FirstBlock extends Block {
 			            	{
 			            		if(numFound[typeIndex] == 0)
 			            		{
-			            			sortedItemDepth[typeIndex] = newY;
+			            			sortedItemDepth[typeIndex] = y-newY;
 			            			if(numGuiLayers<maxGuiLayers)
 			            			{
 			            				layerItemIndexes[numGuiLayers] = typeIndex;
@@ -97,13 +96,6 @@ public class FirstBlock extends Block {
                 }
             }
             
-//            for(int index=0; index<itemNames.length; index++)
-//            {
-//            	if ( numFound[index] > 0)
-//            	{
-//	            	LOGGER.info(itemNames[index]+" count="+numFound[index]+" firstY="+sortedItemDepth[index]);
-//            	}
-//            }
             for(int index=0; index<numGuiLayers; index++)
             {
             	int itemIndex = layerItemIndexes[index];
@@ -112,11 +104,10 @@ public class FirstBlock extends Block {
             }
             
 
-            
+            displayDuration = 1500;
             
             return true;
         }
-//        return super.onBlockActivated(state, world, pos, player, hand, result);
         return true;
     }
 
@@ -126,21 +117,52 @@ public class FirstBlock extends Block {
     public static int [] numFound;
     public static String [] sortedItemNames;
     public static String [] sortedItemTextures;
+    public static int numGuiLayers = 0;
+    public static int displayDuration = 0;
+
     
     public static int [] layerItemIndexes;
     
-    public final String [] itemNames = 
+    public final static String [] itemNames = 
 	{
-    	"Diamond Ore",    // textures/items/diamond.png
-    	"Gold Ore",
-    	"Iron Ore",
-    	"Lapis Lazuli Ore",
-    	"Redstone Ore",
-    	"Coal Ore",       // textures/items/coal.png
-    	"Lava",
-    	"Water",
-    	"Dirt",
-    	"Air"
+    	"Diamond Ore",       // 0
+    	"Gold Ore",          // 1
+    	"Iron Ore",          // 2
+    	"Lapis Lazuli Ore",  // 3
+    	"Redstone Ore",      // 4
+    	"Coal Ore",          // 5
+    	"Lava",              // 6
+    	"Water",             // 7
+//    	"Dirt",              // 8
+    	"Air"                // 9
 	};
+
+    // from textures/items/items.png
+    public final static int [] icons_x = 
+	{
+		7, //    	"Diamond Ore",       // 0
+		7, //    	"Gold Ore",          // 1
+		7, //    	"Iron Ore",          // 2
+		14,//    	"Lapis Lazuli Ore",  // 3
+		8, //    	"Redstone Ore",      // 4
+		7, //    	"Coal Ore",          // 5
+		12,//    	"Lava",              // 6
+		11,//    	"Water",             // 7
+//		6, //    	"Dirt",              // 8
+		15 //    	"Air"                // 9
+	};  
+    public final static int [] icons_y = 
+	{
+		3, //    	"Diamond Ore",       // 0
+		2, //    	"Gold Ore",          // 1
+		1, //    	"Iron Ore",          // 2
+		8, //    	"Lapis Lazuli Ore",  // 3
+		3, //    	"Redstone Ore",      // 4
+		0, //    	"Coal Ore",          // 5
+		4, //    	"Lava",              // 6
+		4, //    	"Water",             // 7
+//		1, //    	"Dirt",              // 8
+		13 //    	"Air"                // 9
+	};  
 
 }

@@ -3,10 +3,7 @@ package com.example.examplemod;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.mojang.blaze3d.platform.GlStateManager;
-
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -18,40 +15,41 @@ public class RadarRenderer {
 	private static Minecraft mc;
     private static FontRenderer fontRenderer;
     private static final Logger LOGGER = LogManager.getLogger();
-//    public static final ResourceLocation ICON_VANILLA = AbstractGui.GUI_ICONS_LOCATION; // good
-//    public static final ResourceLocation myResourceLocation = new ResourceLocation("minecraft:textures/gui/icons.png"); // good
-//    public static final ResourceLocation myResourceLocation = new ResourceLocation("minecraft:textures/gui/widgets.png"); // good
-//    public static final ResourceLocation myResourceLocation = new ResourceLocation("minecraft:textures/gui/recipe_button.png"); // good
-//    public static final ResourceLocation myResourceLocation = new ResourceLocation("minecraft:textures/block/diamond_ore.png"); // good with 8 8
-//    public static final ResourceLocation myResourceLocation = new ResourceLocation("minecraft:textures/item/diamond.png"); //bad
     public static final ResourceLocation myResourceLocation = new ResourceLocation("examplemod:textures/items/items.png");
-    
-    public static ResourceLocation [] myResourceLocations;
-
     
     RadarRenderer()
     {
     	mc = Minecraft.getInstance();
     	fontRenderer = mc.fontRenderer;
     	
-    	myResourceLocations = new ResourceLocation[11];
-    	myResourceLocations[0] = new ResourceLocation("examplemod:textures/items/items.png");
     }
     
 	@SubscribeEvent(priority = EventPriority.LOW)
-	public void renderMyOverlay(RenderGameOverlayEvent.Pre event) {
+	public void renderMyOverlay(RenderGameOverlayEvent.Pre event) 
+	{
+		int overlayRow = 0;
 		
-		int index = 0;
-//        LOGGER.info("renderMyOverlay reached" );
-		drawStringOnHUD("Testing", 20, 12+4+index*16, 0xffffffff);
-		
-
-//		ResourceLocation myResourceLocation = new ResourceLocation("examplemod:textures/items/items.png");
+		if (FirstBlock.displayDuration > 0)
+		{
+			for(overlayRow=0 ; overlayRow<FirstBlock.numGuiLayers ; overlayRow++)
+			{
+				int itemInfoIndex = FirstBlock.layerItemIndexes[overlayRow];
+		    	
+				
+				String rowText = FirstBlock.numFound[itemInfoIndex]+" " +FirstBlock.itemNames[itemInfoIndex]+ " "+FirstBlock.sortedItemDepth[itemInfoIndex];
+				
+				drawStringOnHUD(rowText, 20, 12 + 4 + overlayRow * 16, 0xffffffff);
+	
+				mc.getTextureManager().bindTexture(myResourceLocation);
+				
+				int icons_png_x = FirstBlock.icons_x[itemInfoIndex];
+				int icons_png_y = FirstBlock.icons_y[itemInfoIndex];
+	
+				drawTexturedModalRect(2, 12 + 16*overlayRow, icons_png_x*16, icons_png_y*16, 16, 16);
+			}
 			
-		mc.getTextureManager().bindTexture(myResourceLocation);
-
-	    drawTexturedModalRect(2,12+16*index, 7*16, 2*16, 16, 16);
-	    
+			FirstBlock.displayDuration--;
+		}
 	}
 	
 	public static void drawStringOnHUD(String string, int xOffset, int yOffset, int color) {
@@ -60,6 +58,7 @@ public class RadarRenderer {
 		fontRenderer = mc.fontRenderer;
 
 		fontRenderer.drawStringWithShadow(string, xOffset, yOffset, color);
+
 	}
 
 	public static void drawTexturedModalRect(int x, int y, int textureX, int textureY, int width, int height) {
