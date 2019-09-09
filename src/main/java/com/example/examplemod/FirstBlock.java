@@ -131,12 +131,12 @@ public class FirstBlock extends Block {
     
     public final String [] itemNames = 
 	{
-    	"Diamond Ore",
+    	"Diamond Ore",    // textures/items/diamond.png
     	"Gold Ore",
     	"Iron Ore",
     	"Lapis Lazuli Ore",
     	"Redstone Ore",
-    	"Coal Ore",
+    	"Coal Ore",       // textures/items/coal.png
     	"Lava",
     	"Water",
     	"Dirt",
