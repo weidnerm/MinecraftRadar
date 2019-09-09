@@ -103,6 +103,8 @@ public class FirstBlock extends Block {
 	            LOGGER.info(itemNames[itemIndex]+" count="+numFound[itemIndex]+" firstY="+sortedItemDepth[itemIndex]);
             }
             
+            int diameter = 1+radius*2;
+            splashText = new String(diameter+"x"+diameter+" Scanned");
 
             displayDuration = 1500;
             
@@ -119,7 +121,7 @@ public class FirstBlock extends Block {
     public static String [] sortedItemTextures;
     public static int numGuiLayers = 0;
     public static int displayDuration = 0;
-
+    public static String splashText;
     
     public static int [] layerItemIndexes;
     

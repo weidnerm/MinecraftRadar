@@ -31,6 +31,8 @@ public class RadarRenderer {
 		
 		if (FirstBlock.displayDuration > 0)
 		{
+			drawStringOnHUD(FirstBlock.splashText, 20, 12 + 4 , 0xffffffff);
+
 			for(overlayRow=0 ; overlayRow<FirstBlock.numGuiLayers ; overlayRow++)
 			{
 				int itemInfoIndex = FirstBlock.layerItemIndexes[overlayRow];
@@ -38,14 +40,14 @@ public class RadarRenderer {
 				
 				String rowText = FirstBlock.numFound[itemInfoIndex]+" " +FirstBlock.itemNames[itemInfoIndex]+ " "+FirstBlock.sortedItemDepth[itemInfoIndex];
 				
-				drawStringOnHUD(rowText, 20, 12 + 4 + overlayRow * 16, 0xffffffff);
+				drawStringOnHUD(rowText, 20, 12 +16 + 4 + overlayRow * 16, 0xffffffff);
 	
 				mc.getTextureManager().bindTexture(myResourceLocation);
 				
 				int icons_png_x = FirstBlock.icons_x[itemInfoIndex];
 				int icons_png_y = FirstBlock.icons_y[itemInfoIndex];
 	
-				drawTexturedModalRect(2, 12 + 16*overlayRow, icons_png_x*16, icons_png_y*16, 16, 16);
+				drawTexturedModalRect(2, 12 +16 + 16*overlayRow, icons_png_x*16, icons_png_y*16, 16, 16);
 			}
 			
 			FirstBlock.displayDuration--;
