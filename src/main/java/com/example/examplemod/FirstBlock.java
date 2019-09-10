@@ -8,6 +8,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -53,6 +54,9 @@ public class FirstBlock extends Block {
             int x = pos.getX();
             int y = pos.getY();
             int z = pos.getZ();
+            Direction side = result.getFace();
+            LOGGER.info("direction="+side );
+            
             
             LOGGER.info("pos = " + x + ","+ y + "," + z );
             
@@ -61,10 +65,12 @@ public class FirstBlock extends Block {
         	BlockPos myPos;
         	int radius = 0; //0 for 1x1;  1 for 3x3;  2 for 5x5;  3 for 7x7
         	
-        	if( world.getBlockState(new BlockPos(x,y+2,z)).getBlock().getNameTextComponent().getString().equals("First Block")) {radius++;}
         	if( world.getBlockState(new BlockPos(x,y+1,z)).getBlock().getNameTextComponent().getString().equals("First Block")) {radius++;}
         	if( world.getBlockState(new BlockPos(x,y-1,z)).getBlock().getNameTextComponent().getString().equals("First Block")) {radius++;}
-        	if( world.getBlockState(new BlockPos(x,y-2,z)).getBlock().getNameTextComponent().getString().equals("First Block")) {radius++;}
+        	if( world.getBlockState(new BlockPos(x-1,y,z)).getBlock().getNameTextComponent().getString().equals("First Block")) {radius++;}
+        	if( world.getBlockState(new BlockPos(x+1,y,z)).getBlock().getNameTextComponent().getString().equals("First Block")) {radius++;}
+        	if( world.getBlockState(new BlockPos(x,y,z-1)).getBlock().getNameTextComponent().getString().equals("First Block")) {radius++;}
+        	if( world.getBlockState(new BlockPos(x,y,z+1)).getBlock().getNameTextComponent().getString().equals("First Block")) {radius++;}
 
         	int zOffset, xOffset;
             for(int depth=1; depth<y-1; depth++)
